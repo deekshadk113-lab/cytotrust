@@ -43,16 +43,18 @@ JSON result  ->  verdict, probabilities, heatmap, warnings
 
 Requires Python 3.10 or newer.
 
-**1. Get the trained models.** They come from the Part 1 training notebook on Kaggle (your notebook is `deekshadk/part-a`).
-You need two kinds of files from its output: `<model>_seed0.pt` (the weights) and `preds_<model>_seed0_val.npz` (used to fit
-the calibration temperatures). Download them from the notebook's Output tab, or with the Kaggle command line tool
-(`pip install kaggle`, put your API token in `~/.kaggle/kaggle.json`):
+**1. Get the trained model weights.** Checkpoint files are large and are not included in this repository. They come from the
+Part 1 training notebook on Kaggle (`deekshadk/part-a`). Download the `<model>_seed0.pt` files for the models you want from
+the notebook's Output tab, or with the Kaggle command line tool (`pip install kaggle`, put your API token in
+`~/.kaggle/kaggle.json`):
 
 ```bash
 kaggle kernels output deekshadk/part-a -p kaggle_output
 ```
 
-This downloads every output file, which can be over 1 GB. You only need the seed-0 files.
+This downloads every output file, which can be over 1 GB. You only need the seed-0 checkpoint files. The app uses the
+calibration temperatures in `models/calibration.json`, which is included in this repository; validation prediction files
+are not needed to run it.
 
 **2. Install.**
 
@@ -64,7 +66,9 @@ pip install -r requirements.txt
 
 **3. Add the checkpoints.** Copy the `*_seed0.pt` files into `models/`. One model is enough to run the app.
 
-**4. Fit the calibration temperatures.**
+**4. (Optional) Refit the calibration temperatures.** Skip this if you are using the included `models/calibration.json`.
+To refit, download the matching `preds_<model>_seed0_val.npz` validation prediction files from the notebook output into
+`kaggle_output`, then run:
 
 ```bash
 python tools/fit_temperatures.py --preds kaggle_output --out models/calibration.json
