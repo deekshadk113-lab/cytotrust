@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CytoTrust: cervical cell screening with honest confidence</title>
+  <meta name="description" content="Upload a single-cell Pap smear crop and get a normal or abnormal answer with a calibrated probability, or a referral when the model is not sure.">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <a class="skip" href="#analyze">Skip to the analyzer</a>
+
+  <header class="top">
+    <a class="brand" href="#top" aria-label="CytoTrust home">
+      <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+        <circle cx="16" cy="16" r="14" fill="#9fd6cf"></circle>
+        <circle cx="16" cy="16" r="14" fill="none" stroke="#1f8a83" stroke-width="1.5"></circle>
+        <ellipse cx="17" cy="15" rx="5.5" ry="6" fill="#4b3f8f"></ellipse>
+        <circle cx="15.5" cy="13.5" r="1.4" fill="#d9d4f2"></circle>
+      </svg>
+      <span>CytoTrust</span>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#analyze">Analyze</a>
+      <a href="#results">Study results</a>
+      <a href="#limits">Limits</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <p class="notice" role="note">Research prototype from a student project. It is not a medical device and must not be used for clinical decisions.</p>
+
+    <section class="intro">
+      <h1>Check one cervical cell, and see how sure the model really is.</h1>
+      <p>Upload a single-cell Pap smear crop. CytoTrust answers normal or abnormal with a calibrated probability, and refers the cell to a pathologist when its confidence falls below the limit you set.</p>
+    </section>
+
+    <section id="analyze" class="bench" aria-labelledby="analyze-h">
+      <h2 id="analyze-h" class="visually-hidden">Analyze a cell image</h2>
+
+      <form id="form" class="panel" novalidate>
+        <label class="drop" id="drop" for="file">
+          <input id="file" name="file" type="file" accept="image/png,image/jpeg,image/bmp,image/tiff">
+          <img id="preview" alt="Preview of the selected cell image" hidden>
+          <span class="drop-text" id="drop-text">
+            <strong>Drop an image here, or choose a file</strong>
+            <span>PNG, JPEG, BMP or TIFF, up to 5 MB. Works best with a single-cell crop like those in SIPaKMeD or Herlev.</span>
+          </span>
+        </label>
+
+        <div class="field">
+          <label for="model">Model</label>
+          <select id="model" name="model"></select>
+          <p class="hint" id="model-status">Loading models…</p>
+        </div>
+
+        <div class="field">
+          <label for="threshold">Refer to a pathologist when confidence is below <output id="threshold-out" for="threshold">70%</output></label>
+          <input id="threshold" name="threshold" type="range" min="0.5" max="0.99" step="0.01" value="0.70">
+          <p class="hint">Confidence is the larger of the two class probabilities. A higher limit refers more cells.</p>
+        </div>
+
+        <div class="checks">
+          <label class="check"><input type="checkbox" id="calibrated" checked> Use calibrated probabilities</label>
+          <label class="check"><input type="checkbox" id="explain" checked> Show where the model looked</label>
+        </div>
+
+        <button type="submit" id="go" class="primary" disabled>Analyze cell</button>
+        <p class="error" id="error" role="alert" hidden></p>
+      </form>
+
+      <div id="out" class="out" aria-live="polite">
+        <div class="empty">
+          <p><strong>No result yet.</strong></p>
+          <p>Choose a cell image and select Analyze cell. Nothing you upload is saved.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="study" aria-labelledby="results-h">
+      <h2 id="results-h">How well it works</h2>
+      <p class="lede">The models were fine-tuned on SIPaKMeD and then tested on Herlev, a dataset they never saw. Accuracy stays high on the training dataset and drops on a new one, and the drop is mostly dataset shift.</p>
+      <div class="tabs" role="tablist" aria-label="Study results"></div>
+      <div id="panel" class="tabpanel" role="tabpanel" tabindex="0"></div>
+    </section>
+
+    <section id="limits" class="limits" aria-labelledby="limits-h">
+      <h2 id="limits-h">What to keep in mind</h2>
+      <ul>
+        <li>The models were trained on one dataset of single-cell crops (SIPaKMeD) with two labels, normal and abnormal. Metaplastic cells count as normal.</li>
+        <li>On a different dataset (Herlev) accuracy fell to 51% to 79% and calibration error grew several times over. Treat results on images from other labs, stains or scanners with caution.</li>
+        <li>Calibration makes the probabilities more honest on the training distribution. Under dataset shift the confidence is only a weak signal of which answers are wrong, so referral helps modestly.</li>
+        <li>The ensemble averages the calibrated probabilities of every available model. Averaging improved calibration in the study but not discrimination.</li>
+        <li>The heatmap shows which regions influenced the prediction. It is not a diagnosis and can highlight irrelevant areas.</li>
+        <li>Uploaded images are processed in memory and are not stored.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Final-year major project, Department of Computer Science and Engineering, Dayananda Sagar Academy of Technology and Management, Bengaluru. Datasets: SIPaKMeD (Plissiti et al., ICIP 2018) and the Herlev Pap smear database.</p>
+  </footer>
+
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

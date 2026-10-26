@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.env
+models/*.pt
+models/*.pth
+models/*_seed0/
+kaggle_output/

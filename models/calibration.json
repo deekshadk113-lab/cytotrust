@@ -1,0 +1,17 @@
+{
+  "temperatures": {
+    "convnext_tiny": 0.9633,
+    "efficientnet_v2_s": 1.6268,
+    "mobilenet_v3_large": 1.5176,
+    "resnet50": 1.656,
+    "swin_t": 1.653
+  },
+  "n_val": {
+    "convnext_tiny": 571,
+    "efficientnet_v2_s": 571,
+    "mobilenet_v3_large": 571,
+    "resnet50": 571,
+    "swin_t": 571
+  },
+  "source": "SIPaKMeD validation split, seed 0"
+}

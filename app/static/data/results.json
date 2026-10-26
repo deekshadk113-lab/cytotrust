@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "title": "SIPaKMeD to Herlev, five backbones, three seeds",
+    "note": "Values are mean and standard deviation over seeds (folds for the in-domain table). Herlev is about 74% abnormal, so a model that always answers abnormal scores about 0.74 accuracy."
+  },
+  "order": ["convnext_tiny", "efficientnet_v2_s", "mobilenet_v3_large", "resnet50", "swin_t"],
+  "names": {
+    "convnext_tiny": "ConvNeXt-Tiny",
+    "efficientnet_v2_s": "EfficientNetV2-S",
+    "mobilenet_v3_large": "MobileNetV3-Large",
+    "resnet50": "ResNet-50",
+    "swin_t": "Swin-T"
+  },
+  "external": {
+    "convnext_tiny": {"src": {"acc": [0.947, 0.019], "auc": [0.994, 0.002], "ece": [0.037, 0.010]}, "ext": {"acc": [0.785, 0.039], "sens": [0.885, 0.070], "spec": [0.506, 0.064], "auc": [0.708, 0.002], "ece": [0.128, 0.035]}},
+    "efficientnet_v2_s": {"src": {"acc": [0.955, 0.002], "auc": [0.990, 0.001], "ece": [0.027, 0.005]}, "ext": {"acc": [0.707, 0.042], "sens": [0.755, 0.042], "spec": [0.572, 0.041], "auc": [0.701, 0.042], "ece": [0.189, 0.021]}},
+    "mobilenet_v3_large": {"src": {"acc": [0.942, 0.009], "auc": [0.988, 0.005], "ece": [0.034, 0.003]}, "ext": {"acc": [0.750, 0.089], "sens": [0.820, 0.135], "spec": [0.554, 0.041], "auc": [0.709, 0.051], "ece": [0.162, 0.050]}},
+    "resnet50": {"src": {"acc": [0.974, 0.010], "auc": [0.996, 0.002], "ece": [0.018, 0.005]}, "ext": {"acc": [0.649, 0.017], "sens": [0.678, 0.033], "spec": [0.569, 0.029], "auc": [0.660, 0.007], "ece": [0.239, 0.003]}},
+    "swin_t": {"src": {"acc": [0.963, 0.012], "auc": [0.992, 0.003], "ece": [0.021, 0.005]}, "ext": {"acc": [0.513, 0.041], "sens": [0.456, 0.068], "spec": [0.672, 0.033], "auc": [0.648, 0.015], "ece": [0.348, 0.040]}}
+  },
+  "calibration_ece": {
+    "convnext_tiny": {"raw": [0.128, 0.035], "temp": [0.105, 0.019], "temp_prior": [0.134, 0.021], "oracle": [0.071, 0.022]},
+    "efficientnet_v2_s": {"raw": [0.189, 0.021], "temp": [0.138, 0.015], "temp_prior": [0.104, 0.008], "oracle": [0.044, 0.019]},
+    "mobilenet_v3_large": {"raw": [0.162, 0.050], "temp": [0.124, 0.047], "temp_prior": [0.132, 0.022], "oracle": [0.064, 0.014]},
+    "resnet50": {"raw": [0.239, 0.003], "temp": [0.194, 0.011], "temp_prior": [0.175, 0.015], "oracle": [0.042, 0.009]},
+    "swin_t": {"raw": [0.348, 0.040], "temp": [0.291, 0.054], "temp_prior": [0.364, 0.096], "oracle": [0.060, 0.012]}
+  },
+  "selective": {
+    "convnext_tiny": {"full": 0.785, "c80": 0.820, "c50": 0.837, "aurc": 0.172},
+    "efficientnet_v2_s": {"full": 0.707, "c80": 0.746, "c50": 0.797, "aurc": 0.203},
+    "mobilenet_v3_large": {"full": 0.750, "c80": 0.780, "c50": 0.802, "aurc": 0.185},
+    "resnet50": {"full": 0.649, "c80": 0.670, "c50": 0.694, "aurc": 0.275},
+    "swin_t": {"full": 0.513, "c80": 0.525, "c50": 0.552, "aurc": 0.410}
+  },
+  "ensembles": [
+    {"name": "Best single model (ConvNeXt-Tiny), mean over seeds", "acc": 0.785, "bal": 0.695, "auc": "0.708", "ece_raw": 0.128, "ece_temp": 0.105, "aurc": 0.172, "acc50": 0.837},
+    {"name": "ConvNeXt-Tiny, three seeds averaged", "acc": 0.796, "bal": 0.709, "auc": "0.709 (0.672 to 0.749)", "ece_raw": 0.108, "ece_temp": 0.086, "aurc": 0.165, "acc50": 0.841},
+    {"name": "All five models, per seed (mean)", "acc": 0.731, "bal": 0.674, "auc": "0.699", "ece_raw": 0.083, "ece_temp": 0.065, "aurc": 0.175, "acc50": 0.809},
+    {"name": "All 15 models", "acc": 0.742, "bal": 0.683, "auc": "0.700 (0.660 to 0.744)", "ece_raw": 0.074, "ece_temp": 0.054, "aurc": 0.167, "acc50": 0.821}
+  ],
+  "in_domain": {
+    "order": ["convnext_tiny", "efficientnet_v2_s", "mobilenet_v3_large", "resnet50"],
+    "rows": {
+      "convnext_tiny": {"acc": [0.943, 0.016], "bal": [0.922, 0.022], "auc": [0.979, 0.008], "ece": [0.040, 0.006], "ext_acc": [0.785, 0.039], "ext_auc": [0.708, 0.002]},
+      "efficientnet_v2_s": {"acc": [0.924, 0.013], "bal": [0.899, 0.010], "auc": [0.972, 0.010], "ece": [0.049, 0.006], "ext_acc": [0.707, 0.042], "ext_auc": [0.701, 0.042]},
+      "mobilenet_v3_large": {"acc": [0.941, 0.017], "bal": [0.915, 0.031], "auc": [0.976, 0.012], "ece": [0.054, 0.010], "ext_acc": [0.750, 0.089], "ext_auc": [0.709, 0.051]},
+      "resnet50": {"acc": [0.936, 0.014], "bal": [0.906, 0.022], "auc": [0.977, 0.011], "ece": [0.046, 0.012], "ext_acc": [0.649, 0.017], "ext_auc": [0.660, 0.007]}
+    }
+  }
+}
